@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class PaginatorserviceService implements MatPaginatorIntl {
+export class PaginatonService implements MatPaginatorIntl {
   changes = new Subject<void>();
   // For internationalization, the `$localize` function from
   // the `@angular/localize` package can be used.

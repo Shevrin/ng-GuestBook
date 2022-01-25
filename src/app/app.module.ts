@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { Subject } from 'rxjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,7 +16,7 @@ import { AppComponent } from './app.component';
 import { FormComponent } from './components/form/form.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
-import { PaginatorserviceService } from './paginatorservice.service';
+import { PaginatonService } from './services/pagination.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +34,7 @@ import { PaginatorserviceService } from './paginatorservice.service';
     MatButtonModule,
     MatPaginatorModule,
   ],
-  providers: [{ provide: MatPaginatorIntl, useClass: PaginatorserviceService }],
+  providers: [{ provide: MatPaginatorIntl, useClass: PaginatonService }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

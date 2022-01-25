@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '../form/models/post';
-import { DataserviceService } from 'src/app/dataservice.service';
+import { DataService } from 'src/app/services/data.service';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-posts',
@@ -14,17 +15,20 @@ export class PostsComponent implements OnInit {
   from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
   originally bred for hunting.`;
 
-  constructor(private dataService: DataserviceService) {}
+  constructor(
+    public dataService: DataService,
+    private httpService: HttpService
+  ) {}
 
   ngOnInit(): void {
-    this.dataService.getPosts().subscribe(
+    this.httpService.getPosts().subscribe(
       (data: Data[]) => {
-        data.map((item: Data) => {
-          this.name = item['name'];
-          this.text = item['body'];
-          console.log(this.name);
-          console.log(this.text);
-        });
+        // data.map((item: Data) => {
+        //   this.name = item['name'];
+        //   this.text = item['body'];
+        //   console.log(this.name);
+        //   console.log(this.text);
+        // });
         this.posts = data;
         console.log(this.posts);
       },
