@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Data } from '../form/models/post';
 import { DataService } from 'src/app/services/data.service';
 import { HttpService } from 'src/app/services/http.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
@@ -9,7 +10,7 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent implements OnInit {
-  public posts: Data[] = [];
+  public posts!: Observable<Data[]>;
   public name = `Dude`;
   public text = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
   from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
@@ -21,18 +22,32 @@ export class PostsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.httpService.getPosts().subscribe(
-      (data: Data[]) => {
-        // data.map((item: Data) => {
-        //   this.name = item['name'];
-        //   this.text = item['body'];
-        //   console.log(this.name);
-        //   console.log(this.text);
-        // });
-        this.posts = data;
-        console.log(this.posts);
-      },
-      (error) => console.log(error.message)
-    );
+    this.httpService.getPosts();
+    this.posts = this.dataService.postsSubject$;
+    console.log(this.posts);
+
+    this.posts.subscribe((data: Data[]) => {
+      console.log(data);
+
+      data.map((item: Data) => {
+        this.name = item['name'];
+        this.text = item['body'];
+        console.log(this.name);
+        console.log(this.text);
+      });
+      // this.httpService.getPosts().subscribe(
+      //   (data: Data[]) => {
+      // data.map((item: Data) => {
+      //   this.name = item['name'];
+      //   this.text = item['body'];
+      //   console.log(this.name);
+      //   console.log(this.text);
+      // });
+      //     this.posts = data;
+      //     console.log(this.posts);
+      //   },
+      //   (error) => console.log(error.message)
+      // );
+    });
   }
 }

@@ -2,16 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Data } from '../components/form/models/post';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
-  errorMessage: string = '';
-  constructor(private http: HttpClient) {}
+  public errorMessage: string = '';
+  public posts: Data[] = [];
 
-  getPosts(): Observable<Data[]> {
-    return this.http
+  constructor(private http: HttpClient, private dataService: DataService) {}
+
+  getPosts() {
+    this.http
       .get<Data[]>('https://jsonplaceholder.typicode.com/comments')
       .pipe(
         catchError((err) => {
@@ -20,6 +23,10 @@ export class HttpService {
           console.log(throwError(err));
           return [];
         })
-      );
+      )
+      .subscribe((posts) => {
+        this.posts = posts;
+        this.dataService.postsSubject$.next(this.posts);
+      });
   }
 }

@@ -7,16 +7,13 @@ import { HttpService } from './http.service';
   providedIn: 'root',
 })
 export class DataService {
-  errorMessage: string = '';
-  constructor(private httpService: HttpService) {}
+  constructor() {}
 
-  public posts!: Data[];
-
-  // this.httpService.getPosts()
-
-  public postsSubject: BehaviorSubject<Data[]> = new BehaviorSubject(
+  public postsSubject$: BehaviorSubject<Data[]> = new BehaviorSubject(
     [] as Data[]
   );
 
-  public posts$: Observable<Data[]> = this.postsSubject.asObservable();
+  // public posts!: Data[];
+  // this.httpService.getPosts()
+  // public posts$: Observable<Data[]> = this.postsSubject.asObservable();
 }
