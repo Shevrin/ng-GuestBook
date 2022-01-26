@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
+import { Data } from '../components/form/models/post';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,21 +12,23 @@ export class PaginatonService implements MatPaginatorIntl {
   // For internationalization, the `$localize` function from
   // the `@angular/localize` package can be used.
   firstPageLabel = `First page`;
-  itemsPerPageLabel = `Items per page:`;
+  itemsPerPageLabel = `Число постов на странице:`;
   lastPageLabel = `Last page`;
 
   // You can set labels to an arbitrary string too, or dynamically compute
   // it through other third-party internationalization libraries.
-  nextPageLabel = 'Next page';
-  previousPageLabel = 'Previous page';
+  nextPageLabel = 'Следующая';
+  previousPageLabel = 'Предыдущая';
 
   getRangeLabel(page: number, pageSize: number, length: number): string {
     if (length === 0) {
-      return `Page 1 of 1`;
+      return `Страница 1 из 1`;
     }
     const amountPages = Math.ceil(length / pageSize);
-    return `Page ${page + 1} of ${amountPages}`;
+    return `Страница ${page + 1} из ${amountPages}`;
   }
 
-  constructor() {}
+  getPageSize() {
+    console.log('getPageSize');
+  }
 }

@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Data } from '../components/form/models/post';
-import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
+  pageIndex: number = 0;
+  pageSize: number = 500;
+  p: Data[] = [];
   constructor() {}
 
   public postsSubject$: BehaviorSubject<Data[]> = new BehaviorSubject(
     [] as Data[]
   );
+  public posts$: Observable<Data[]> = this.postsSubject$.asObservable();
 
-  // public posts!: Data[];
-  // this.httpService.getPosts()
-  // public posts$: Observable<Data[]> = this.postsSubject.asObservable();
+
 }
+
+

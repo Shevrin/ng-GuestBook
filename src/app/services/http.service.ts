@@ -20,7 +20,6 @@ export class HttpService {
         catchError((err) => {
           this.errorMessage = err.message;
           console.log(err.message);
-          console.log(throwError(err));
           return [];
         })
       )
