@@ -1,11 +1,15 @@
-<form class="form">
+<form class="form" [formGroup]="form">
   <mat-form-field appearance="fill" class="full-width" appearance="fill">
     <mat-label>Имя</mat-label>
-    <input matInput placeholder="Имя" value="" />
+    <input matInput placeholder="Имя" value="" formControlName="name" />
   </mat-form-field>
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Оставьте комментарий</mat-label>
-    <textarea matInput placeholder="Комментарий"></textarea>
+    <textarea
+      matInput
+      placeholder="Комментарий"
+      formControlName="text"
+    ></textarea>
   </mat-form-field>
   <section>
     <div class="label"></div>

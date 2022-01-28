@@ -28,3 +28,7 @@
 //   background-color: whitesmoke !important;
 // }
 // }
+
+input.ng-touched.ng-invalid{
+ border-color: red;
+}
