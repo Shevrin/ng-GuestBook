@@ -13,14 +13,14 @@ import { HttpService } from 'src/app/services/http.service';
 export class PostsComponent implements OnInit {
   public lastPage: number = 0;
   public pageSize: number = 5;
-  public temple!: Data[];
+  public paginatorPage: Data[] = [];
+  // public temple!: Data[];
   public posts$!: Observable<Data[]>;
   public page: Data[] = [];
   public name: string | number = `Dude`;
   public text = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
   from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
   originally bred for hunting.`;
-  public paginatorPage: Data[] = [];
   constructor(
     public dataService: DataService,
     private httpService: HttpService,
@@ -30,25 +30,27 @@ export class PostsComponent implements OnInit {
     this.posts$ = this.dataService.posts$;
     this.dataService.posts$.subscribe((data: Data[]) => {
       this.lastPage = data.length;
-      this.cdr.markForCheck;
+      // this.cdr.markForCheck;
     });
   }
 
   public changePage(event: PageEvent) {
-    console.log(event);
-    // console.log(event.pageIndex);
-    // console.log(event.pageSize);
-    // this.dataService.getPage(event.pageIndex, event.pageSize);
-    // this.dataService.posts$.pipe(
-    //   skip(event.pageIndex * event.pageSize),
-    //   take(event.pageSize)
-    // );
-    this.posts$.subscribe((data) => {
+    let paginator = this.posts$.subscribe((data) => {
+      console.log(data);
+
       this.paginatorPage = data.slice(
         event.pageIndex * event.pageSize,
         event.pageSize
       );
+      this.cdr.markForCheck;
+      console.log(event);
+      console.log(event.pageIndex);
+      console.log(event.pageSize);
+      console.log(event.pageIndex * event.pageSize);
+
+      console.log(this.paginatorPage);
     });
+    // paginator.unsubscribe();
   }
 
   ngOnInit(): void {
