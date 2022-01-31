@@ -6,9 +6,7 @@ import { Data } from '../components/form/models/post';
   providedIn: 'root',
 })
 export class DataService {
-  // pageIndex: number = 0;
-  // pageSize: number = 500;
-  paginatorPage: Data[] = [];
+  public paginatorPage: Data[] = [];
 
   constructor() {}
 
@@ -17,14 +15,11 @@ export class DataService {
   );
   public posts$: Observable<Data[]> = this.postsSubject$.asObservable();
 
-  public getPageSize() {
-    return this.posts$.subscribe((data: any) => console.log(data));
-  }
-
-  getPage(pageIndex: number, pageSize: number) {
-    this.posts$
-      .pipe(skip(pageIndex * pageSize), take(pageSize))
-      .subscribe((data) => (this.paginatorPage = data));
-    console.log(this.paginatorPage);
+  public getPageItems(pageIndex: number, pageSize: number) {
+    this.posts$.subscribe((data) => {
+      let startIndex = pageIndex * pageSize;
+      let items = pageSize + pageIndex * pageSize;
+      this.paginatorPage = data.slice(startIndex, items);
+    });
   }
 }

@@ -1,12 +1,12 @@
-<p></p>
 <mat-paginator
   [length]="lastPage"
   [pageSize]="pageSize"
-  [pageSizeOptions]="[5, 10, 50, 100]"
+  [pageSizeOptions]="pageSizeOptions"
   aria-label="Select page"
   (page)="changePage($event)"
 >
 </mat-paginator>
+
 <ng-container *ngFor="let post of paginatorPage">
   <mat-card class="example-card">
     <mat-card-title>{{ post.name }}</mat-card-title>
@@ -19,6 +19,3 @@
     </mat-card-actions>
   </mat-card>
 </ng-container>
-<pre
-  >{{ paginatorPage | json }}
-</pre>
