@@ -17,8 +17,8 @@ export class FormComponent implements OnInit {
 
   initForm() {
     this.form = this.fb.group({
-      name: [[null], [Validators.required]],
-      text: [[null], [Validators.required]],
+      name: [[null], [Validators.required, Validators.pattern(/\w/)]],
+      text: [[null], [Validators.required, Validators.pattern(/\w/)]],
     });
   }
 }
