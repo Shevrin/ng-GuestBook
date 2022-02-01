@@ -13,7 +13,7 @@ export class HttpService {
 
   constructor(private http: HttpClient, private dataService: DataService) {}
 
-  getPosts() {
+  public getPosts() {
     this.http
       .get<Data[]>('https://jsonplaceholder.typicode.com/comments')
       .pipe(
@@ -28,4 +28,6 @@ export class HttpService {
         this.dataService.postsSubject$.next(this.posts);
       });
   }
+
+  public addPosts() {}
 }

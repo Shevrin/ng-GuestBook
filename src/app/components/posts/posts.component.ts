@@ -1,5 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Data } from '../form/models/post';
 import { DataService } from 'src/app/services/data.service';
 import { HttpService } from 'src/app/services/http.service';
@@ -9,10 +15,11 @@ import { HttpService } from 'src/app/services/http.service';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent implements OnDestroy, OnChanges {
+  public startPage: number = 0;
   public lastPage: number = 0;
   public pageSize: number = 5;
-  public pageSizeOptions: number[] = [5, 10, 25, 100];
+  public pageSizeOptions: number[] = [5, 10, 25, 50, 100];
 
   public paginatorPage: Data[] = [];
 
@@ -22,10 +29,13 @@ export class PostsComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.httpService.getPosts();
-    this.dataService.posts$.subscribe((data: Data[]) => {
+    let startPage = this.dataService.postsSubject$.subscribe((data: Data[]) => {
       this.lastPage = data.length;
-      this.paginatorPage = data.slice(0, this.pageSize);
+      console.log(data);
+      this.paginatorPage = data.slice(this.startPage, this.pageSize);
     });
+    // this.cdr.detectChanges;
+    // this.cdr.markForCheck;
   }
 
   public changePage(event: PageEvent) {
@@ -41,5 +51,11 @@ export class PostsComponent implements OnInit {
     // paginator.unsubscribe();
   }
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.paginatorPage = this.dataService.paginatorPage;
+  }
+
+  ngOnDestroy() {
+    // this.startPage.unsubscribe();
+  }
 }

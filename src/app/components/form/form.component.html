@@ -1,20 +1,29 @@
-<form class="form" [formGroup]="form">
+<form class="form" [formGroup]="form" (submit)="onSubmit()">
   <mat-form-field appearance="fill" class="full-width" appearance="fill">
     <mat-label>Имя</mat-label>
     <input matInput placeholder="Имя" value="" formControlName="name" />
   </mat-form-field>
+  <div class="error" *ngIf="isControlValid('name')">
+    Введенный текст невалиден
+  </div>
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Оставьте комментарий</mat-label>
     <textarea
       matInput
       placeholder="Комментарий"
-      formControlName="text"
+      formControlName="body"
     ></textarea>
   </mat-form-field>
+  <div class="error" *ngIf="isControlValid('body')">
+    Введенный текст невалиден
+  </div>
   <section>
     <div class="label"></div>
     <div class="button-row">
-      <button mat-raised-button>Добавить</button>
+      <button mat-raised-button [disabled]="form.invalid">Добавить</button>
     </div>
   </section>
 </form>
+<div>
+  {{ form.value | json }}
+</div>
