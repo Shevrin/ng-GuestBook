@@ -9,8 +9,15 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class FormComponent implements OnInit {
   form!: FormGroup;
+  public tyu: any;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService) {
+    this.dataService.selfPosts$.subscribe((data) => {
+      console.log(data);
+
+      this.tyu = data;
+    });
+  }
 
   public ngOnInit(): void {
     this.initForm();
@@ -50,7 +57,7 @@ export class FormComponent implements OnInit {
     } else {
       this.dataService.addPost(this.form.value);
       this.form.reset();
-      this.form.markAsUntouched();
+      // this.form.markAsUntouched();
       // this.form.markAsPristine();
       // console.log(this.form);
       // console.log(this.form.valid);

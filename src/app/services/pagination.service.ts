@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
-import { Data } from '../components/form/models/post';
+import { Data } from '../models/post';
 import { DataService } from './data.service';
 
 @Injectable({

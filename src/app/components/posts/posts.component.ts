@@ -6,9 +6,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Data } from '../form/models/post';
+import { Data } from '../../models/post';
 import { DataService } from 'src/app/services/data.service';
-import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-posts',
@@ -23,13 +22,9 @@ export class PostsComponent implements OnDestroy, OnChanges {
 
   public paginatorPage: Data[] = [];
 
-  constructor(
-    public dataService: DataService,
-    private httpService: HttpService,
-    private cdr: ChangeDetectorRef
-  ) {
-    this.httpService.getPosts();
-    let startPage = this.dataService.postsSubject$.subscribe((data: Data[]) => {
+  constructor(public dataService: DataService, private cdr: ChangeDetectorRef) {
+    this.dataService.getAllPosts();
+    this.dataService.postsSubject$.subscribe((data: Data[]) => {
       this.lastPage = data.length;
       // console.log(data);
       this.paginatorPage = data.slice(this.startPage, this.pageSize);
