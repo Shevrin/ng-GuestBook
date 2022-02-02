@@ -18,8 +18,20 @@ export class FormComponent implements OnInit {
 
   public initForm() {
     this.form = this.fb.group({
-      name: [[null], [Validators.required, Validators.pattern(/[а-яА-Я]|\w/)]],
-      body: [[null], [Validators.required, Validators.pattern(/[а-яА-Я]|\w/)]],
+      name: [
+        '',
+        [
+          Validators.required,
+          // Validators.pattern(/[а-яА-Я]|\w/)
+        ],
+      ],
+      body: [
+        '',
+        [
+          Validators.required,
+          // Validators.pattern(/[а-яА-Я]|\w/)
+        ],
+      ],
     });
   }
 
@@ -35,13 +47,18 @@ export class FormComponent implements OnInit {
       Object.keys(controls).forEach((controlName) =>
         controls[controlName].markAsTouched()
       );
-      return;
     } else {
-      // console.log(JSON.stringify(this.form.value));
-      // console.log(this.form.value);
-
-      // this.dataService.addComment(JSON.stringify(this.form.value));
       this.dataService.addPost(this.form.value);
+      this.form.reset();
+      this.form.markAsUntouched();
+      // this.form.markAsPristine();
+      // console.log(this.form);
+      // console.log(this.form.valid);
+      // this.form.clearAsyncValidators();
+      // this.form.clearValidators();
+      // this.form.controls['name'];
+      // let values = this.form.value;
+      // this.form.setValue({ name: '', body: '' });
     }
   }
 }

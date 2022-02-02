@@ -31,7 +31,7 @@ export class PostsComponent implements OnDestroy, OnChanges {
     this.httpService.getPosts();
     let startPage = this.dataService.postsSubject$.subscribe((data: Data[]) => {
       this.lastPage = data.length;
-      console.log(data);
+      // console.log(data);
       this.paginatorPage = data.slice(this.startPage, this.pageSize);
     });
     // this.cdr.detectChanges;

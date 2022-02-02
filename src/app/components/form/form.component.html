@@ -1,4 +1,4 @@
-<form class="form" [formGroup]="form" (submit)="onSubmit()">
+<form class="form" [formGroup]="form">
   <mat-form-field appearance="fill" class="full-width" appearance="fill">
     <mat-label>Имя</mat-label>
     <input matInput placeholder="Имя" value="" formControlName="name" />
@@ -20,7 +20,9 @@
   <section>
     <div class="label"></div>
     <div class="button-row">
-      <button mat-raised-button [disabled]="form.invalid">Добавить</button>
+      <button mat-raised-button [disabled]="form.invalid" (click)="onSubmit()">
+        Добавить
+      </button>
     </div>
   </section>
 </form>

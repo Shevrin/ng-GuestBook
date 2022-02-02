@@ -9,7 +9,7 @@ import { DataService } from './data.service';
 })
 export class HttpService {
   public errorMessage: string = '';
-  public posts: Data[] = [];
+  // public posts: Data[] = [];
 
   constructor(private http: HttpClient, private dataService: DataService) {}
 
@@ -24,8 +24,8 @@ export class HttpService {
         })
       )
       .subscribe((posts) => {
-        this.posts = posts;
-        this.dataService.postsSubject$.next(this.posts);
+        // this.posts = posts;
+        this.dataService.postsSubject$.next(posts);
       });
   }
 
