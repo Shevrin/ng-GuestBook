@@ -7,15 +7,15 @@
 >
 </mat-paginator>
 
-<ng-container *ngFor="let post of paginatorPage">
+<ng-container *ngFor="let post of paginatorPage; let id = index">
   <mat-card class="example-card">
     <mat-card-title>{{ post.name }}</mat-card-title>
     <mat-card-content>
       <p>{{ post.body }}</p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button>Редактировать</button>
-      <button mat-button>Удалить</button>
+      <button mat-button (click)="edit(id)">Редактировать</button>
+      <button mat-button (click)="delete(id)">Удалить</button>
     </mat-card-actions>
   </mat-card>
 </ng-container>

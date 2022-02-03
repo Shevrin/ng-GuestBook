@@ -9,10 +9,9 @@ import { DataService } from './data.service';
   providedIn: 'root',
 })
 export class HttpService {
-  constructor(private http: HttpClient) {}
-
   public errorMessage: string = '';
-  // public posts: Data[] = [];
+
+  constructor(private http: HttpClient) {}
 
   public getPosts() {
     return this.http.get<Data[]>(BACKEND_BASE_DOMAIN).pipe(
@@ -24,7 +23,13 @@ export class HttpService {
     );
   }
 
-  public addPosts(post: any) {
+  public addPosts(post: Data) {
+    return this.http.post<Data[]>(BACKEND_BASE_DOMAIN, {
+      body: post,
+    });
+  }
+
+  public delPosts(post: Data) {
     return this.http.post<Data[]>(BACKEND_BASE_DOMAIN, {
       body: post,
     });
