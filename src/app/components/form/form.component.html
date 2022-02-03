@@ -28,5 +28,10 @@
 </form>
 <div>
   {{ tyu | json }}
-	<span *ngIf="loading$ | async">Loading...</span>
+  <div *ngIf="loading$ | async" class="icon">
+    <span>Loading...</span>
+    <!-- <fa-icon [icon]="['fab', 'stack-overflow']"></fa-icon>
+    <fa-icon [icon]="['fab', 'github']"></fa-icon> -->
+    <fa-icon [icon]="['fas', 'spinner']" [spin]="true"></fa-icon>
+  </div>
 </div>

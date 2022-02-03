@@ -37,3 +37,13 @@ input.ng-touched.ng-invalid{
   color: red;
   tab-size: 10px;
 }
+.icon {
+  display: flex;
+  min-width: 450px;
+  margin: 15px;
+  justify-content: flex-start;
+}
+
+fa-icon{
+  padding: 0 5px;
+}

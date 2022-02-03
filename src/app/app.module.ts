@@ -13,10 +13,17 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 
+import { faStackOverflow, faGithub } from '@fortawesome/free-brands-svg-icons';
+
 import { AppComponent } from './app.component';
 import { FormComponent } from './components/form/form.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { PaginatonService } from './services/pagination.service';
+import {
+  FaIconLibrary,
+  FontAwesomeModule,
+} from '@fortawesome/angular-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 @NgModule({
   declarations: [AppComponent, PostsComponent, FormComponent],
   imports: [
@@ -29,8 +36,13 @@ import { PaginatonService } from './services/pagination.service';
     MatInputModule,
     MatButtonModule,
     MatPaginatorModule,
+    FontAwesomeModule,
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatonService }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(faStackOverflow, faGithub, faSpinner);
+  }
+}

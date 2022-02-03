@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-form',
@@ -12,7 +13,7 @@ export class FormComponent implements OnInit {
   public form!: FormGroup;
   public tyu: any;
   public loading$!: Observable<any>;
-
+  loadIco = faSpinner;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
     this.dataService.selfPosts$.subscribe((data) => {
@@ -23,9 +24,8 @@ export class FormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
-		this.loading$ = this.dataService.loading$
+    this.loading$ = this.dataService.loading$;
   }
-
 
   public initForm() {
     this.form = this.fb.group({
