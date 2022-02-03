@@ -25,6 +25,8 @@ export class DataService {
     [] as Data[]
   );
 
+  public loading$: BehaviorSubject<any> = new BehaviorSubject(false);
+
   public getPosts(): Data[] {
     return this.postsSubject$.value;
   }
@@ -38,13 +40,16 @@ export class DataService {
   }
 
   public getAllPosts() {
+    this.loading$.next(true);
     this.backend.getPosts().subscribe((posts: Data[]) => {
       console.log(posts);
       this.postsSubject$.next(posts);
+      this.loading$.next(false);
     });
   }
 
   public addPost(formValue: Data): void {
+    this.loading$.next(true);
     this.posts = this.getPosts();
     this.posts.unshift(formValue);
     this.selfPosts.unshift(formValue);
@@ -55,6 +60,7 @@ export class DataService {
 
     this.backend.addPosts(this.posts).subscribe((posts: Data[]) => {
       console.log(posts);
+      this.loading$.next(false);
     });
   }
 

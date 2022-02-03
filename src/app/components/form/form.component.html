@@ -28,4 +28,5 @@
 </form>
 <div>
   {{ tyu | json }}
+	<span *ngIf="loading$ | async">Loading...</span>
 </div>

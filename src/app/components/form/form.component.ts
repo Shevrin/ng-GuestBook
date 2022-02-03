@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -8,20 +9,23 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
-  form!: FormGroup;
+  public form!: FormGroup;
   public tyu: any;
+  public loading$!: Observable<any>;
+
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
     this.dataService.selfPosts$.subscribe((data) => {
       console.log(data);
-
       this.tyu = data;
     });
   }
 
   public ngOnInit(): void {
     this.initForm();
+		this.loading$ = this.dataService.loading$
   }
+
 
   public initForm() {
     this.form = this.fb.group({
