@@ -1,33 +1,61 @@
-<form class="form" [formGroup]="form">
-  <mat-form-field appearance="fill" class="full-width" appearance="fill">
-    <mat-label>Имя</mat-label>
-    <input matInput placeholder="Имя" value="" formControlName="name" />
-  </mat-form-field>
-  <div class="error" *ngIf="isControlValid('name')">
-    Введенный текст невалиден
-  </div>
-  <mat-form-field class="full-width" appearance="fill">
-    <mat-label>Оставьте комментарий</mat-label>
-    <textarea
-      matInput
-      placeholder="Комментарий"
-      formControlName="body"
-    ></textarea>
-  </mat-form-field>
-  <div class="error" *ngIf="isControlValid('body')">
-    Введенный текст невалиден
-  </div>
-  <section>
-    <div class="label"></div>
-    <div class="button-row">
-      <button mat-raised-button [disabled]="form.invalid" (click)="onSubmit()">
-        Добавить
-      </button>
+<div class="form-wrapper" id="form">
+  <form class="form" [formGroup]="form">
+    <mat-form-field appearance="fill" class="full-width" appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input
+        matInput
+        placeholder="Имя"
+        value=""
+        formControlName="name"
+        [value]="editName"
+      />
+    </mat-form-field>
+    <div class="error" *ngIf="isControlValid('name')">
+      Введенный текст невалиден
     </div>
-  </section>
-</form>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Оставьте комментарий</mat-label>
+      <textarea
+        matInput
+        placeholder="Комментарий"
+        formControlName="body"
+        [value]="editBody"
+      ></textarea>
+    </mat-form-field>
+    <div class="error" *ngIf="isControlValid('body')">
+      Введенный текст невалиден
+    </div>
+    <section>
+      <div class="button-row">
+        <button
+          *ngIf="notEditable"
+          mat-raised-button
+          [disabled]="form.invalid"
+          (click)="onSubmit()"
+        >
+          Добавить
+        </button>
+        <button
+          *ngIf="!notEditable"
+          mat-raised-button
+          color="accent"
+          (click)="onSubmit()"
+        >
+          Сохранить
+        </button>
+        <button
+          *ngIf="!notEditable"
+          mat-raised-button
+          color="accent"
+          (click)="cancel()"
+        >
+          Отмена
+        </button>
+      </div>
+    </section>
+  </form>
+</div>
 <div>
-  <!-- {{ tyu | json }} -->
   <div *ngIf="loading$ | async" class="icon">
     <span>Loading...</span>
     <!-- <fa-icon [icon]="['fab', 'stack-overflow']"></fa-icon>

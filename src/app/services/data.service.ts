@@ -27,6 +27,8 @@ export class DataService {
 
   public loading$: BehaviorSubject<any> = new BehaviorSubject(false);
 
+  public editable$: BehaviorSubject<any> = new BehaviorSubject([]);
+
   public getPosts(): Data[] {
     return this.postsSubject$.value;
   }
@@ -43,7 +45,7 @@ export class DataService {
     this.loading$.next(true);
 
     this.backend.getPosts().subscribe((posts: Data[]) => {
-      console.log(posts);
+      // console.log(posts);
       this.postsSubject$.next(posts);
 
       this.loading$.next(false);
@@ -61,8 +63,7 @@ export class DataService {
     this.setSelfPosts(this.selfPosts);
     // this.selfPosts$.subscribe((dat) => console.log(dat));
     this.backend.addPosts(this.posts).subscribe((posts: Data[]) => {
-      console.log(posts);
-
+      // console.log(posts);
       this.loading$.next(false);
     });
   }
@@ -71,27 +72,38 @@ export class DataService {
     this.loading$.next(true);
 
     this.posts = this.getPosts().filter((_, index) => index !== id);
-    console.log(this.posts);
+    // console.log(this.posts);
     this.setPosts(this.posts);
     this.backend.delPosts(this.posts).subscribe((posts: Data[]) => {
       console.log(posts);
-
       this.loading$.next(false);
     });
   }
 
-  public editPost(id: number) {}
+  public editPost(idx: number) {
+    this.postsSubject$.subscribe((posts) => {
+      console.log('EDIT');
+
+      this.editable$.next(posts[idx]);
+    });
+  }
+
+  public cancelEdit() {
+    console.log('CANCEL');
+    this.editable$.next([]);
+    // this.editable$.subscribe((data) => console.log(data));
+  }
 
   public getPageItems(pageIndex: number, pageSize: number) {
     this.loading$.next(true);
-    setTimeout(() => {
-      this.posts$.subscribe((data) => {
-        let startIndex = pageIndex * pageSize;
-        let items = pageSize + pageIndex * pageSize;
-        this.paginatorPage = data.slice(startIndex, items);
+    this.posts$.subscribe((data) => {
+      let startIndex = pageIndex * pageSize;
+      let items = pageSize + pageIndex * pageSize;
+      this.paginatorPage = data.slice(startIndex, items);
 
+      setTimeout(() => {
         this.loading$.next(false);
-      });
-    }, 500);
+      }, 350);
+    });
   }
 }

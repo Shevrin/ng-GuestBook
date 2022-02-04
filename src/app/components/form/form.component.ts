@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -11,20 +11,28 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 })
 export class FormComponent implements OnInit {
   public form!: FormGroup;
-  public tyu: any;
   public loading$!: Observable<any>;
-  loadIco = faSpinner;
+  public editPost$: Observable<Data> = this.dataService.editable$;
+  public editName!: string;
+  public editBody!: string;
+  public notEditable: boolean = true;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {
-    this.dataService.selfPosts$.subscribe((data) => {
-      console.log(data);
-      this.tyu = data;
-    });
-  }
+  constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   public ngOnInit(): void {
     this.initForm();
     this.loading$ = this.dataService.loading$;
+    this.editPost$.subscribe((post) => {
+      if (Object.keys(post).length) {
+        this.notEditable = false;
+        this.editName = post['name'];
+        this.editBody = post['body'];
+        // console.log(this.form.controls['name']);
+        console.log(post['name']);
+        // this.form.controls['name'] = post['name'];
+        // this.form.controls['body'] = post['body'];
+      }
+    });
   }
 
   public initForm() {
@@ -71,5 +79,12 @@ export class FormComponent implements OnInit {
       // let values = this.form.value;
       // this.form.setValue({ name: '', body: '' });
     }
+  }
+
+  public cancel() {
+    this.notEditable = true;
+    this.editName = '';
+    this.editBody = '';
+    this.dataService.cancelEdit();
   }
 }

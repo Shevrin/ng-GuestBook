@@ -1,7 +1,5 @@
 .form {
-  margin: 15px;
   min-width: 150px;
-  max-width: 470px;
   width: 100%;
   }
 
@@ -46,4 +44,14 @@ input.ng-touched.ng-invalid{
 
 fa-icon{
   padding: 0 5px;
+}
+
+.form-wrapper{
+  box-sizing: border-box;
+  min-width: 535px;
+  padding: 15px;
+}
+
+.button-row{
+  margin: 15px 0px;
 }
