@@ -11,7 +11,6 @@ export class DataService {
   public selfPosts: Data[] = [];
   public posts: any;
   public editIndex!: number;
-  public errorMessage: string = '';
 
   constructor(private backend: HttpService) {}
 

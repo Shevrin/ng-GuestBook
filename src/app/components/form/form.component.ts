@@ -38,8 +38,7 @@ export class FormComponent implements OnInit {
 
   public isControlValid(controlName: string): boolean {
     const control = this.form.controls[controlName];
-    const result = control.invalid && control.touched;
-    return result;
+    return control.invalid && control.touched;
   }
 
   public onSubmit(): void {
@@ -76,5 +75,4 @@ export class FormComponent implements OnInit {
     this.form.controls['name'].markAsUntouched();
     this.form.controls['body'].markAsUntouched();
   }
-
 }

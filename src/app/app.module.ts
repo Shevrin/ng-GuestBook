@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
@@ -24,6 +25,7 @@ import {
   FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 @NgModule({
   declarations: [AppComponent, PostsComponent, FormComponent],
   imports: [
@@ -35,6 +37,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatPaginatorModule,
     FontAwesomeModule,
   ],
@@ -43,6 +46,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(faStackOverflow, faGithub, faSpinner);
+    library.addIcons(faStackOverflow, faGithub, faSpinner, faHeart);
   }
 }

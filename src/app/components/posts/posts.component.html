@@ -21,6 +21,19 @@
               Редактировать
             </button>
             <button mat-button (click)="delete(id)">Удалить</button>
+            <!-- <fa-icon [icon]="['far', 'heart']"></fa-icon>
+            <fa-icon [icon]="['far', 'heart']" primaryColor="red"></fa-icon> -->
+            <button mat-icon-button color="warn" aria-label="button heart icon">
+              <mat-icon>favorite</mat-icon>
+            </button>
+            <button
+              class="favorite_border"
+              mat-icon-button
+              aria-label="button heart icon"
+            >
+              <mat-icon>favorite_border</mat-icon>
+            </button>
+            <!-- <i class="fas fa-heart"></i> -->
           </div>
         </mat-card-actions>
       </mat-card>

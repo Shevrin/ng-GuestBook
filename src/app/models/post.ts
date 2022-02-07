@@ -1,5 +1,5 @@
 export interface Data {
-  length: any;
+  length: number;
   postId: number;
   id: number;
   name: string;

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
-import { Data } from '../models/post';
-import { DataService } from './data.service';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -22,13 +19,13 @@ export class PaginatonService implements MatPaginatorIntl {
 
   getRangeLabel(page: number, pageSize: number, length: number): string {
     if (length === 0) {
+      return `Нет постов`;
+    }
+
+    if (length < pageSize && page === 0) {
       return `Страница 1 из 1`;
     }
     const amountPages = Math.ceil(length / pageSize);
     return `Страница ${page + 1} из ${amountPages}`;
-  }
-
-  getPageSize() {
-    console.log('getPageSize');
   }
 }
