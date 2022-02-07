@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, timeout } from 'rxjs';
-import { Data, Post } from '../models/post';
+import { Data } from '../models/post';
 import { HttpService } from './http.service';
 
 @Injectable({
@@ -10,38 +10,31 @@ export class DataService {
   public paginatorPage: Data[] = [];
   public selfPosts: Data[] = [];
   public posts: any;
+  public editIndex!: number;
   public errorMessage: string = '';
 
   constructor(private backend: HttpService) {}
-
-  // public posts: Data[] = [];
 
   public postsSubject$: BehaviorSubject<Data[]> = new BehaviorSubject(
     [] as Data[]
   );
   public posts$: Observable<Data[]> = this.postsSubject$.asObservable();
 
-  public selfPosts$: BehaviorSubject<Data[]> = new BehaviorSubject(
-    [] as Data[]
+  public loading$: BehaviorSubject<boolean> = new BehaviorSubject(
+    false as boolean
   );
 
-  public loading$: BehaviorSubject<any> = new BehaviorSubject(false);
-
-  public editable$: BehaviorSubject<any> = new BehaviorSubject([]);
+  public editable$: BehaviorSubject<Data[]> = new BehaviorSubject([] as Data[]);
 
   public getPosts(): Data[] {
     return this.postsSubject$.value;
   }
 
-  public setPosts(posts: Data[]) {
+  public setPosts(posts: Data[]): void {
     this.postsSubject$.next(posts);
   }
 
-  public setSelfPosts(posts: Data[]) {
-    this.selfPosts$.next(posts);
-  }
-
-  public getAllPosts() {
+  public getAllPosts(): void {
     this.loading$.next(true);
 
     this.backend.getPosts().subscribe((posts: Data[]) => {
@@ -60,41 +53,50 @@ export class DataService {
     this.selfPosts.unshift(formValue);
 
     this.setPosts(this.posts);
-    this.setSelfPosts(this.selfPosts);
-    // this.selfPosts$.subscribe((dat) => console.log(dat));
     this.backend.addPosts(this.posts).subscribe((posts: Data[]) => {
       // console.log(posts);
       this.loading$.next(false);
     });
   }
 
-  public deletePost(id: number) {
+  public deletePost(id: number): void {
     this.loading$.next(true);
 
     this.posts = this.getPosts().filter((_, index) => index !== id);
-    // console.log(this.posts);
     this.setPosts(this.posts);
     this.backend.delPosts(this.posts).subscribe((posts: Data[]) => {
-      console.log(posts);
       this.loading$.next(false);
     });
   }
 
-  public editPost(idx: number) {
-    this.postsSubject$.subscribe((posts) => {
-      console.log('EDIT');
-
-      this.editable$.next(posts[idx]);
-    });
+  public editPost(idx: number): void {
+    this.editIndex = idx;
+    this.posts = this.getPosts();
+    this.editable$.next(this.posts[idx]);
   }
 
-  public cancelEdit() {
-    console.log('CANCEL');
+  public cancelEdit(): void {
     this.editable$.next([]);
     // this.editable$.subscribe((data) => console.log(data));
   }
 
-  public getPageItems(pageIndex: number, pageSize: number) {
+  public saveEdit(post: Data): void {
+    this.loading$.next(true);
+
+    this.editable$.next([]);
+    this.posts = this.getPosts();
+
+    this.posts[this.editIndex] = post;
+    this.setPosts(this.posts);
+    this.backend
+      .putPosts(this.posts, this.editIndex)
+      .subscribe((posts: Data[]) => {
+        this.loading$.next(false);
+      });
+    // this.editable$.subscribe((data) => console.log(data));
+  }
+
+  public getPageItems(pageIndex: number, pageSize: number): void {
     this.loading$.next(true);
     this.posts$.subscribe((data) => {
       let startIndex = pageIndex * pageSize;

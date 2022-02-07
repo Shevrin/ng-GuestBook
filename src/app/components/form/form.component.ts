@@ -13,8 +13,6 @@ export class FormComponent implements OnInit {
   public form!: FormGroup;
   public loading$!: Observable<any>;
   public editPost$: Observable<Data> = this.dataService.editable$;
-  public editName!: string;
-  public editBody!: string;
   public notEditable: boolean = true;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
@@ -25,32 +23,16 @@ export class FormComponent implements OnInit {
     this.editPost$.subscribe((post) => {
       if (Object.keys(post).length) {
         this.notEditable = false;
-        this.editName = post['name'];
-        this.editBody = post['body'];
-        // console.log(this.form.controls['name']);
-        console.log(post['name']);
-        // this.form.controls['name'] = post['name'];
-        // this.form.controls['body'] = post['body'];
+        this.form.controls['name'].setValue(post['name']);
+        this.form.controls['body'].setValue(post['body']);
       }
     });
   }
 
-  public initForm() {
+  public initForm(): void {
     this.form = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          // Validators.pattern(/[а-яА-Я]|\w/)
-        ],
-      ],
-      body: [
-        '',
-        [
-          Validators.required,
-          // Validators.pattern(/[а-яА-Я]|\w/)
-        ],
-      ],
+      name: ['', [Validators.required, Validators.pattern(/[а-яА-Я]|\w/)]],
+      body: ['', [Validators.required, Validators.pattern(/[а-яА-Я]|\w/)]],
     });
   }
 
@@ -71,20 +53,28 @@ export class FormComponent implements OnInit {
       this.form.reset();
       // this.form.markAsUntouched();
       // this.form.markAsPristine();
-      // console.log(this.form);
-      // console.log(this.form.valid);
-      // this.form.clearAsyncValidators();
-      // this.form.clearValidators();
-      // this.form.controls['name'];
-      // let values = this.form.value;
-      // this.form.setValue({ name: '', body: '' });
     }
   }
 
-  public cancel() {
-    this.notEditable = true;
-    this.editName = '';
-    this.editBody = '';
-    this.dataService.cancelEdit();
+  public saveChanges(): void {
+    const controls = this.form.controls;
+    if (this.form.invalid) {
+      Object.keys(controls).forEach((controlName) =>
+        controls[controlName].markAsTouched()
+      );
+    } else {
+      this.dataService.saveEdit(this.form.value);
+      this.cancelChanges();
+    }
   }
+
+  public cancelChanges(): void {
+    this.notEditable = true;
+    this.form.reset();
+
+    this.dataService.cancelEdit();
+    this.form.controls['name'].markAsUntouched();
+    this.form.controls['body'].markAsUntouched();
+  }
+
 }

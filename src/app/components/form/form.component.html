@@ -2,13 +2,7 @@
   <form class="form" [formGroup]="form">
     <mat-form-field appearance="fill" class="full-width" appearance="fill">
       <mat-label>Имя</mat-label>
-      <input
-        matInput
-        placeholder="Имя"
-        value=""
-        formControlName="name"
-        [value]="editName"
-      />
+      <input matInput placeholder="Имя" value="" formControlName="name" />
     </mat-form-field>
     <div class="error" *ngIf="isControlValid('name')">
       Введенный текст невалиден
@@ -19,7 +13,6 @@
         matInput
         placeholder="Комментарий"
         formControlName="body"
-        [value]="editBody"
       ></textarea>
     </mat-form-field>
     <div class="error" *ngIf="isControlValid('body')">
@@ -39,7 +32,7 @@
           *ngIf="!notEditable"
           mat-raised-button
           color="accent"
-          (click)="onSubmit()"
+          (click)="saveChanges()"
         >
           Сохранить
         </button>
@@ -47,7 +40,7 @@
           *ngIf="!notEditable"
           mat-raised-button
           color="accent"
-          (click)="cancel()"
+          (click)="cancelChanges()"
         >
           Отмена
         </button>
