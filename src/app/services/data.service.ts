@@ -48,6 +48,7 @@ export class DataService {
     this.loading$.next(true);
 
     this.posts = this.getPosts();
+    formValue.like = false;
     this.posts.unshift(formValue);
     this.selfPosts.unshift(formValue);
 
@@ -93,6 +94,12 @@ export class DataService {
         this.loading$.next(false);
       });
     // this.editable$.subscribe((data) => console.log(data));
+  }
+
+  public likePost(id: number): void {
+    this.posts = this.getPosts();
+    this.posts[id].like = !this.posts[id].like;
+    this.setPosts(this.posts);
   }
 
   public getPageItems(pageIndex: number, pageSize: number): void {
