@@ -8,7 +8,7 @@
   >
   </mat-paginator>
 
-  <ng-container *ngFor="let post of paginatorPage; let id = index">
+  <ng-container *ngFor="let post of paginatorPage; let idx = index">
     <div *ngIf="!(loader$ | async)">
       <mat-card class="example-card">
         <mat-card-title>{{ post.name }}</mat-card-title>
@@ -17,19 +17,27 @@
         </mat-card-content>
         <mat-card-actions>
           <div class="btns-default">
-            <button mat-button (click)="edit(id)" (click)="scrollToForm()">
+            <button mat-button (click)="edit(idx)" (click)="scrollToForm()">
               Редактировать
             </button>
-            <button mat-button (click)="delete(id)">Удалить</button>
+            <button mat-button (click)="delete(idx)">Удалить</button>
             <!-- <fa-icon [icon]="['far', 'heart']"></fa-icon>
             <fa-icon [icon]="['far', 'heart']" primaryColor="red"></fa-icon> -->
-            <button mat-icon-button color="warn" aria-label="button heart icon">
+            <button
+              *ngIf="post.like"
+              mat-icon-button
+              color="warn"
+              aria-label="button heart icon"
+              (click)="toggleLike(idx)"
+            >
               <mat-icon>favorite</mat-icon>
             </button>
             <button
+              *ngIf="!post.like"
               class="favorite_border"
               mat-icon-button
               aria-label="button heart icon"
+              (click)="toggleLike(idx)"
             >
               <mat-icon>favorite_border</mat-icon>
             </button>

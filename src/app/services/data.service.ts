@@ -48,12 +48,12 @@ export class DataService {
     this.loading$.next(true);
 
     this.posts = this.getPosts();
+    formValue.like = false;
     this.posts.unshift(formValue);
     this.selfPosts.unshift(formValue);
 
     this.setPosts(this.posts);
     this.backend.addPosts(this.posts).subscribe((posts: Data[]) => {
-      // console.log(posts);
       this.loading$.next(false);
     });
   }
@@ -76,7 +76,6 @@ export class DataService {
 
   public cancelEdit(): void {
     this.editable$.next([]);
-    // this.editable$.subscribe((data) => console.log(data));
   }
 
   public saveEdit(post: Data): void {
@@ -92,7 +91,12 @@ export class DataService {
       .subscribe((posts: Data[]) => {
         this.loading$.next(false);
       });
-    // this.editable$.subscribe((data) => console.log(data));
+  }
+
+  public likePost(id: number): void {
+    this.posts = this.getPosts();
+    this.posts[id].like = !this.posts[id].like;
+    this.setPosts(this.posts);
   }
 
   public getPageItems(pageIndex: number, pageSize: number): void {

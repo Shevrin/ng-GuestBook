@@ -4,4 +4,5 @@ export interface Data {
   id: number;
   name: string;
   body: string;
+  like: boolean;
 }

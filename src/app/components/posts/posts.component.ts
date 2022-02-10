@@ -10,37 +10,45 @@ import { Observable } from 'rxjs';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent implements OnDestroy {
-  public startPage: number = 0;
+  public pageIndex: number = 0;
   public lastPage: number = 0;
   public pageSize: number = 5;
   public pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   public paginatorPage: Data[] = [];
   public editFlag: boolean = false;
+  public likeFlag: boolean = false;
   public loader$: Observable<boolean> = this.dataService.loading$;
 
   constructor(public dataService: DataService, private cdr: ChangeDetectorRef) {
     this.dataService.getAllPosts();
     this.dataService.postsSubject$.subscribe((data: Data[]) => {
       this.lastPage = data.length;
-      this.paginatorPage = data.slice(this.startPage, this.pageSize);
+      this.dataService.getPageItems(this.pageIndex, this.pageSize);
+      this.paginatorPage = this.dataService.paginatorPage;
     });
     // this.cdr.detectChanges;
     // this.cdr.markForCheck;
   }
 
   public changePage(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+
     this.dataService.getPageItems(event.pageIndex, event.pageSize);
     this.paginatorPage = this.dataService.paginatorPage;
   }
 
-  public delete(id: number) {
-    this.dataService.deletePost(id);
+  public delete(idx: number) {
+    this.dataService.deletePost(this.idxToId(idx));
   }
 
-  public edit(id: number) {
+  public edit(idx: number) {
     this.editFlag = true;
-    this.dataService.editPost(id);
-    // this.dataService.editable$.subscribe((data) => console.log(data));
+    this.dataService.editPost(this.idxToId(idx));
+  }
+
+  public toggleLike(idx: number): void {
+    this.dataService.likePost(this.idxToId(idx));
   }
 
   public scrollToForm() {
@@ -52,6 +60,9 @@ export class PostsComponent implements OnDestroy {
     });
   }
 
+  private idxToId(idx: number): number {
+    return idx + this.pageSize * this.pageIndex;
+  }
   ngOnDestroy() {
     this.dataService.postsSubject$.unsubscribe();
   }
