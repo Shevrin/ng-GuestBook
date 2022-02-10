@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Data } from '../../models/post';
 import { DataService } from 'src/app/services/data.service';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
@@ -39,7 +39,6 @@ export class PostsComponent implements OnDestroy {
   }
 
   public delete(idx: number) {
-    // console.log('delete:', idx, id);
     this.dataService.deletePost(this.idxToId(idx));
   }
 

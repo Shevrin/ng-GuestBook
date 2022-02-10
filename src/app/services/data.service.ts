@@ -54,7 +54,6 @@ export class DataService {
 
     this.setPosts(this.posts);
     this.backend.addPosts(this.posts).subscribe((posts: Data[]) => {
-      // console.log(posts);
       this.loading$.next(false);
     });
   }
@@ -77,7 +76,6 @@ export class DataService {
 
   public cancelEdit(): void {
     this.editable$.next([]);
-    // this.editable$.subscribe((data) => console.log(data));
   }
 
   public saveEdit(post: Data): void {
@@ -93,7 +91,6 @@ export class DataService {
       .subscribe((posts: Data[]) => {
         this.loading$.next(false);
       });
-    // this.editable$.subscribe((data) => console.log(data));
   }
 
   public likePost(id: number): void {
